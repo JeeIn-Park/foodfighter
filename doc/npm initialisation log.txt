@@ -1,0 +1,60 @@
+PowerShell 7.4.6
+PS C:\Users\1700p\Desktop\Ally\projects\FoodFighter\foodfighter> git pull
+Already up to date.
+PS C:\Users\1700p\Desktop\Ally\projects\FoodFighter\foodfighter> npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (foodfighter) git status
+Sorry, name can only contain URL-friendly characters.
+package name: (foodfighter) npm install discord.js dotenv
+Sorry, name can only contain URL-friendly characters.
+package name: (foodfighter) foodfighter
+version: (1.0.0)
+description:
+entry point: (index.js)
+test command: test
+git repository: https://github.com/JeeIn-Park/foodfighter
+keywords: foodie
+author: Jeein
+license: (ISC)
+About to write to C:\Users\1700p\Desktop\Ally\projects\FoodFighter\foodfighter\package.json:
+
+{
+  "name": "foodfighter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeeIn-Park/foodfighter.git"
+  },
+  "keywords": [
+    "foodie"
+  ],
+  "author": "Jeein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeeIn-Park/foodfighter/issues"
+  },
+  "homepage": "https://github.com/JeeIn-Park/foodfighter#readme"
+}
+
+
+Is this OK? (yes) yes
+
+npm notice
+npm notice New major version of npm available! 10.9.0 -> 11.0.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.0.0
+npm notice To update run: npm install -g npm@11.0.0
+npm notice
