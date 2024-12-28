@@ -1,48 +1,75 @@
 import discord
-import os
+import asyncio
 import random
+import os
 from dotenv import load_dotenv
 
-# Load the bot token from .env file
+# Load the bot token from .env
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
-# Intents setup
+# Configure intents
 intents = discord.Intents.default()
-intents.message_content = True  # Required for reading message content
+intents.message_content = True
 
-# Initialize the bot
+# Initialize client
 client = discord.Client(intents=intents)
 
-# Random comments for uploaded images
+# Random comments
 random_comments = [
     "Wow, that's an amazing photo!",
     "Looks interesting! Did you take it yourself?",
     "Haha, this is great!",
     "What a masterpiece!",
-    "I have no words... this is incredible.",
-    "Not bad at all!",
-    "Is this from another world? Love it!",
-    "This totally made my day!",
-    "10/10 would frame this picture.",
-    "I can feel the energy from this image!"
+    "10/10 would frame this picture!"
 ]
+
+# Shutdown timer
+shutdown_timer = None
+
+
+# Function to handle shutdown after 15 minutes of idle time
+async def idle_shutdown():
+    global shutdown_timer
+    if shutdown_timer:
+        shutdown_timer.cancel()
+
+    # Wait for 15 minutes (900 seconds)
+    shutdown_timer = asyncio.create_task(asyncio.sleep(900))
+    try:
+        await shutdown_timer
+        print("No activity for 15 minutes. Shutting down.")
+        await client.close()
+    except asyncio.CancelledError:
+        pass
+
 
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
+    await idle_shutdown()  # Start idle timer
+
 
 @client.event
 async def on_message(message):
+    global shutdown_timer
+
     # Ignore messages from the bot itself
     if message.author == client.user:
         return
 
-    # Check if the message contains an attachment
-    if message.attachments:
-        # Choose a random comment
-        comment = random.choice(random_comments)
-        await message.channel.send(comment)
+    # Check if the message contains an image
+    if message.attachments and any(
+        attachment.filename.endswith(('.png', '.jpg', '.jpeg', '.gif')) for attachment in message.attachments
+    ):
+        # Respond with a random comment
+        random_comment = random.choice(random_comments)
+        await message.channel.send(random_comment)
+        print("Processed an image. Resetting idle timer.")
+
+    # Reset the shutdown timer
+    await idle_shutdown()
+
 
 # Run the bot
 client.run(TOKEN)
