@@ -1,11 +1,11 @@
 import discord
-import asyncio
 import random
 import os
 
 from flask import Flask
 from threading import Thread
 
+# Flask Web Server
 app = Flask('')
 
 @app.route('/')
@@ -17,7 +17,6 @@ def run():
 
 # Start the web server in a separate thread
 Thread(target=run).start()
-
 
 # Get the bot token directly from the environment
 TOKEN = os.getenv("BOT_TOKEN")
@@ -38,36 +37,13 @@ random_comments = [
     "10/10 would frame this picture!"
 ]
 
-# Shutdown timer
-shutdown_timer = None
-
-
-# Function to handle shutdown after 15 minutes of idle time
-async def idle_shutdown():
-    global shutdown_timer
-    if shutdown_timer:
-        shutdown_timer.cancel()
-
-    # Wait for 15 minutes (900 seconds)
-    shutdown_timer = asyncio.create_task(asyncio.sleep(900))
-    try:
-        await shutdown_timer
-        print("No activity for 15 minutes. Shutting down.")
-        await client.close()
-    except asyncio.CancelledError:
-        pass
-
-
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
-    await idle_shutdown()  # Start idle timer
-
+    print("Bot is now running and will not shut down!")
 
 @client.event
 async def on_message(message):
-    global shutdown_timer
-
     # Ignore messages from the bot itself
     if message.author == client.user:
         return
@@ -79,11 +55,7 @@ async def on_message(message):
         # Respond with a random comment
         random_comment = random.choice(random_comments)
         await message.channel.send(random_comment)
-        print("Processed an image. Resetting idle timer.")
-
-    # Reset the shutdown timer
-    await idle_shutdown()
-
+        print("Processed an image.")
 
 # Run the bot
 client.run(TOKEN)
