@@ -16,8 +16,10 @@ client = discord.Client(intents=intents)
 # Random comments
 random_comments = [
     "Wow, that's an amazing photo!",
-    "Looks interesting! Did you take it yourself?", "Haha, this is great!",
-    "What a masterpiece!", "10/10 would frame this picture!"
+    "Looks interesting! Did you take it yourself?",
+    "Haha, this is great!",
+    "What a masterpiece!",
+    "10/10 would frame this picture!"
 ]
 
 # Shutdown timer
@@ -56,8 +58,8 @@ async def on_message(message):
 
     # Check if the message contains an image
     if message.attachments and any(
-            attachment.filename.endswith(('.png', '.jpg', '.jpeg', '.gif'))
-            for attachment in message.attachments):
+        attachment.filename.endswith(('.png', '.jpg', '.jpeg', '.gif')) for attachment in message.attachments
+    ):
         # Respond with a random comment
         random_comment = random.choice(random_comments)
         await message.channel.send(random_comment)
