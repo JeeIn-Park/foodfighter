@@ -3,6 +3,22 @@ import asyncio
 import random
 import os
 
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+# Start the web server in a separate thread
+Thread(target=run).start()
+
+
 # Get the bot token directly from the environment
 TOKEN = os.getenv("BOT_TOKEN")
 
